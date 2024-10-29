@@ -27,6 +27,7 @@ void loop() {              // loops forever
 
    if (Serial.available()>0){                 // bytes received
       Serial.readBytes(msg, MSG_LEN); //message with fixed length
+      
       id = msg[0];
       function = msg[1];
       my_register1 = msg[2];
@@ -45,9 +46,9 @@ void loop() {              // loops forever
                for(int i; i<MSG_LEN; i++){
                   buffer[i] = msg[i];
                }
-               Serial.write(buffer, MSG_LEN);
+            Serial.write(buffer, MSG_LEN);
             }
          }
-      } 
+      }
    }
 }

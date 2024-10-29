@@ -40,24 +40,16 @@
 //       uint16_t crc = (crc1 << 8) | crc2;
 //       if(id == ID_LIGHT_SENSOR){
 //          if(my_register == 0x01){   // right register ?
-//             //data = analogRead(sensorPin);
-//             data = 15;
-//             int led_intensity = (int)data*255/1024.0;
-//             analogWrite(ledPin, led_intensity);
+//             // data = analogRead(sensorPin);
+//             // int led_intensity = (int)data*255/1024.0;
+//             analogWrite(ledPin, data);
+// 			for(int i; i<MSG_LEN; i++){
+// 				buffer[i] = msg[i];
+// 			}
+// 			buffer[4] = data >> 8;
+// 			buffer[5] = data & 0xFF;
 //          }
-//          buffer[0] = (uint8_t)0;
-//          buffer[1] = (uint8_t)1;
-//          buffer[2] = (uint8_t)2;
-//          buffer[3] = (uint8_t)3;
-//          buffer[4] = (uint8_t)4;
-//          buffer[5] = (uint8_t)5;
-//          buffer[6] = (uint8_t)6;
-//          buffer[7] = (uint8_t)7;
 //          Serial.write(buffer, MSG_LEN);               // send the buffer to the RPi
-//          _delay_ms(100);
 //       }
-//       // for(int i; i<MSG_LEN; i++){
-//       //    buffer[i] = msg[i];
-//       // }
 //    }
 // }
