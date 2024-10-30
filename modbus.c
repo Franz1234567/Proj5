@@ -37,7 +37,6 @@ int main(int argc, char *argv[]) {
     function_code = (uint8_t)atoi(argv[2]);
     reg = (uint16_t)atoi(argv[3]);
     value = (uint16_t)atoi(argv[4]);
-    crc = 0;
 
     if ((file = open("/dev/ttyS0", O_RDWR | O_NOCTTY | O_NDELAY)) < 0) {
         perror("UART: Failed to open the file.\n");
@@ -66,6 +65,23 @@ int main(int argc, char *argv[]) {
     }
 }
 
+// Compute the MODBUS RTU CRC
+uint16_t ModRTU_CRC(uint8_t buf[], int len) {
+    uint16_t crc = 0xFFFF;
+    for (int pos = 0; pos < len; pos++) { crc ^= (uint16_t)buf[pos];
+
+        for(int i=8;i!=0;i--){ if ((crc & 0x0001) != 0) {
+            crc >>= 1;
+            crc ^= 0xA001;
+            }
+        else
+        crc >>= 1;
+        // XOR byte into least sig. by
+        } }
+        // Note, this number has low and high bytes swapped, so use it accor dingly (or swap bytes)
+    return crc;
+    }
+
 int read_light_sensor(int file){
     // for now, we just want to send a message to check communication by sending message like 2 3 0 0 and sent back the same message
     uint8_t msg[MSG_LEN];
@@ -77,11 +93,18 @@ int read_light_sensor(int file){
     msg[3] = reg & 0xFF; // take low bits
     msg[4] = value >> 8;
     msg[5] = value & 0xFF;
-    msg[6] = crc >> 8;
-    msg[7] = crc & 0xFF;
+
+    uint16_t crc = ModRTU_CRC(msg, MSG_LEN - 2);
+    uint8_t crc1 = crc >> 8;
+    uint8_t crc2 = crc & 0xFF;
+
+    msg[6] = crc1;
+    msg[7] = crc2;
+    // msg[6] = 0; // you can uncomment those lines to check if the arduino is ignoting a wrong message
+    // msg[7] = 0;
 
     // printf the message
-    printf("send: %u %u %u %u %u %u %u %u\n", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
+    printf("send: %x %x %x %x %x %x %x %x\n", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
     ssize_t count = write(file, msg, MSG_LEN);
     if (count < 0) {
         perror("Failed to write to the output\n");
@@ -100,15 +123,31 @@ int read_light_sensor(int file){
 
     printf("count is %d\n", count);
 
-    printf("received %u %u %u %u %u %u %u %u\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
+    printf("received %x %x %x %x %x %x %x %x\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
 
-    // need to check devicde id and CRC
+    // add CRC check using ModRTU_CRC function
+    crc = ModRTU_CRC(rsp, MSG_LEN - 2);
+    crc1 = crc >> 8;
+    crc2 = crc & 0xFF;
+
+    rsp[6] = crc1;
+    rsp[7] = crc2;
+
+    // verify the crc of message
+    if (crc1 != rsp[6] || crc2 != rsp[7]) {
+        printf("CRC check failed!\n");
+        return -1;
+    }
+    else {
+        printf("CRC check passed!\n");
+    }
+
 
     if (count == 0) {
         printf("There was no data available to read!\n");
     }
     else if (count == 8) {
-        printf("Received response: Device ID: %d, Function Code: %d, Register: %d, Value: %d, CRC: %d, nb of chars: %d\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], count);
+        printf("Light sensor value: %u\n", (rsp[4] << 8) | rsp[5]);
     }
     else {
         printf("Unexpected response length: %zd\n", count);
@@ -127,8 +166,16 @@ int ask_motor_speed(int file){
     msg[3] = reg & 0xFF;
     msg[4] = value >> 8;
     msg[5] = value & 0xFF;
-    msg[6] = crc >> 8;
-    msg[7] = crc & 0xFF;
+
+    uint16_t crc = ModRTU_CRC(msg, MSG_LEN - 2);
+    uint8_t crc1 = crc >> 8;
+    uint8_t crc2 = crc & 0xFF;
+    printf("crc1: %u, crc2: %u\n", crc1, crc2);
+
+    msg[6] = crc1;
+    msg[7] = crc2;
+    // msg[6] = 0; // you can uncomment those lines to check if the arduino is ignoting a wrong message
+    // msg[7] = 0;
 
     ssize_t count = write(file, msg, MSG_LEN);
     if (count < 0) {
@@ -137,7 +184,7 @@ int ask_motor_speed(int file){
     }
 
     printf("Sent %zd bytes: Device ID: %d, Function Code: %d, Register: %d, Value: %d, CRC: %d\n", count, device_id, function_code, reg, value, crc);
-    printf("send: %d %d %d %d %d %d %d %d\n", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
+    printf("send: %x %x %x %x %x %x %x %x\n", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
 
     usleep(200000);
 
@@ -149,17 +196,32 @@ int ask_motor_speed(int file){
         return -1;
     }
 
-    printf("resp: %d %d %d %d %d %d %d %d\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
+    printf("resp: %x %x %x %x %x %x %x %x\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
 
 
-    // will needd to: check CRC and check good device ID
+    // add CRC check using ModRTU_CRC function
+    crc = ModRTU_CRC(rsp, MSG_LEN - 2);
+    crc1 = crc >> 8;
+    crc2 = crc & 0xFF;
+
+    rsp[6] = crc1;
+    rsp[7] = crc2;
+
+    // verify the crc of message
+    if (crc1 != rsp[6] || crc2 != rsp[7]) {
+        printf("CRC check failed!\n");
+        return -1;
+    }
+    else {
+        printf("CRC check passed!\n");
+    }
 
     if (count == 0) {
         printf("There was no data available to read!\n");
         return -1;
     }
     else if (count == 8) {
-        printf("receveiced this value for light sensor: %d and the id is %d\n", rsp[5], rsp[0]);
+        printf("motor speed set \n");
     }
     else {
         printf("Unexpected response length: %zd\n", count);
