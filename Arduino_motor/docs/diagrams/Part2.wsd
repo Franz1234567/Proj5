@@ -1,0 +1,25 @@
+@startuml
+
+state "Initialization" as I #LightBlue
+state "Operational" as O #LightGreen
+state "Stopped" as S #Red
+
+[*] --> I
+
+I: entry/ Start
+I: do/ Initialize variables
+
+O: entry/ StartUp Controller and LED
+O: do/ Run Controller
+O: exit/ Stop Controller and reset timers
+
+S: entry/ Set up LED
+S: do/ Blink and wait for command
+
+I --> O: "o" command
+O --> I: reset, "r" command
+O --> S: stop, "s" command
+S --> O: go to Op, "o" command
+S --> I: reset, "r" command
+
+@enduml
