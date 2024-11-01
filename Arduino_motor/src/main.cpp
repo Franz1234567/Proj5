@@ -35,6 +35,22 @@ Context* context;
 uint8_t msg[MSG_LEN];
 uint8_t id, function_code, my_register1, my_register2, data1, data2, crc1, crc2;
 
+uint16_t ModRTU_CRC(uint8_t buf[], int len){
+   uint16_t crc = 0xFFFF;
+   for (int pos = 0; pos < len; pos++) {
+      crc ^= (uint16_t)buf[pos];
+      for (int i = 8; i != 0; i--) { // Loop over each bit
+         if ((crc & 0x0001) != 0) { // If the LSB is set
+            crc >>= 1; // Shift right and XOR 0xA001
+            crc ^= 0xA001;
+         }
+         else // Else LSB is not set
+            crc >>= 1; // Just shift right
+      }
+   }
+   return crc;
+}
+
 void setup()
 {
   Serial.begin(115200, SERIAL_8N1); // opens serial port, sets data rate to 9600 bps
@@ -59,10 +75,11 @@ void loop()
     uint16_t crc = (crc1 << 8) | crc2;
     if(id == ID_MOTOR){
       if(my_register == 0 ){
-        if((function_code == 1) || (function_code == 2) || (function_code == 80) || (function_code == 81) || (function_code == 82)){
-          msg[5] = function_code;
-          // Serial.write(msg, MSG_LEN);
-          context->event(function_code);
+        uint16_t computed_crc = ModRTU_CRC(msg, MSG_LEN - 2);
+			  if(crc==computed_crc){
+          if((function_code == 1) || (function_code == 2) || (function_code == 80) || (function_code == 81) || (function_code == 82)){
+            context->event(function_code);
+          }
         }
       }
     }

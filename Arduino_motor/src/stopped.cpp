@@ -1,7 +1,14 @@
 #include "global.h"
 
 void StoppedState::on_entry(){
-    msg[5] = function_code;
+    msg[4] = 0;
+	msg[5] = function_code;
+	uint16_t crc = ModRTU_CRC(msg, MSG_LEN - 2);
+	crc1 = crc >> 8;
+	crc2 = crc & 0xFF;
+	msg[6] = crc1;
+	msg[7] = crc2;
+
     Serial.write(msg, MSG_LEN);
 	// Serial.println("Entering Stopped State");
     led.set_hi();
@@ -31,9 +38,14 @@ void StoppedState::on_do(){
             crc1 = msg[6];
             crc2 = msg[7];
             uint16_t crc = (crc1 << 8) | crc2;
-            if(id = ID_MOTOR){ 
-                if((function_code == 81) || (function_code == 1)||(function_code == 80)){
-                    break;
+            if(id == ID_MOTOR){
+                if(my_register == 0){
+                    uint16_t computed_crc = ModRTU_CRC(msg, MSG_LEN - 2);
+                    if(crc == computed_crc){
+                        if((function_code == 81) || (function_code == 1)||(function_code == 80)){
+                            break;
+                        }
+                    }
                 }
             }
         }

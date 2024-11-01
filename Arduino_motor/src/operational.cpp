@@ -12,26 +12,45 @@ void OperationalState::on_do()
     sei();
     
     while(1){
-      Serial.readBytes(msg, MSG_LEN);
-      id = msg[0];
-      function_code = msg[1];
-      my_register1 = msg[2];
-      my_register2 = msg[3];
-      uint16_t my_register = (my_register1 << 8) | my_register2;
-      data1 = msg[4];
-      data2 = msg[5];
-      uint16_t data = (data1 << 8) | data2;
-      crc1 = msg[6];
-      crc2 = msg[7];
-      uint16_t crc = (crc1 << 8) | crc2;
-      if(id == ID_MOTOR){
-        if((function_code == 81) || (function_code == 2)){
-          break;
+      if(Serial.available()>0){
+        Serial.readBytes(msg, MSG_LEN);
+        id = msg[0];
+        function_code = msg[1];
+        my_register1 = msg[2];
+        my_register2 = msg[3];
+        uint16_t my_register = (my_register1 << 8) | my_register2;
+        data1 = msg[4];
+        data2 = msg[5];
+        uint16_t data = (data1 << 8) | data2;
+        crc1 = msg[6];
+        crc2 = msg[7];
+        uint16_t crc = (crc1 << 8) | crc2;
+        if(id == ID_MOTOR){
+          if(my_register == 0){
+            uint16_t computed_crc = ModRTU_CRC(msg, MSG_LEN - 2);
+            if(crc == computed_crc){
+              if((function_code == 81) || (function_code == 2)){
+                break;
+              }
+            }
+          }
+          else if(my_register == 1){
+            if(function_code == 6){
+              uint16_t computed_crc = ModRTU_CRC(msg, MSG_LEN - 2);
+              if(crc == computed_crc){
+                ref = (double)data;
+
+                //send boack message
+                msg[4] = ((uint16_t)current_speed) >> 8;
+                msg[5] = ((uint16_t)current_speed) & 0xFF;
+                crc = ModRTU_CRC(msg, MSG_LEN - 2);
+                msg[6] = crc >> 8;
+                msg[7] = crc & 0xFF;
+                Serial.write(msg, MSG_LEN);
+              }
+            }
+          }
         }
-        // if (fault.is_lo() == 1){
-        //   function_code = 2; // We give the command as if the stopped button was pressed to do an autonomous emergency stop when FLT raised
-        //   break;
-        // }
       }
     }
     // Serial.print("---------> I received: ");
@@ -42,7 +61,14 @@ void OperationalState::on_do()
 
 void OperationalState::on_entry()
 {
-  msg[5] = function_code;
+  msg[4] = 0;
+	msg[5] = function_code;
+	uint16_t crc = ModRTU_CRC(msg, MSG_LEN - 2);
+	crc1 = crc >> 8;
+	crc2 = crc & 0xFF;
+	msg[6] = crc1;
+	msg[7] = crc2;
+
   Serial.write(msg, MSG_LEN);
   // Serial.println("Entering Operational State");
   led.set_hi();

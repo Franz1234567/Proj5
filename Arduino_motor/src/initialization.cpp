@@ -1,10 +1,14 @@
 #include "global.h"
 
-
 void InitState::on_entry(){
+	msg[4] = 0;
 	msg[5] = function_code;
+	uint16_t crc = ModRTU_CRC(msg, MSG_LEN - 2);
+	crc1 = crc >> 8;
+	crc2 = crc & 0xFF;
+	msg[6] = crc1;
+	msg[7] = crc2;
 	Serial.write(msg, MSG_LEN);
-	// Serial.println("Entering Init State");
 	on_do();
 }
 
@@ -16,7 +20,8 @@ void InitState::on_do(){ // Initialization of the variables
 
 	max_speed = 2800; 
 	current_speed = 0;
-	ref = 2000; // reference speed
+	// ref = 2000; // reference speed
+	ref = 0;
 	duty_cycle_first = 50; //original duty cycle
 
 	last_state_A = encA.is_low();

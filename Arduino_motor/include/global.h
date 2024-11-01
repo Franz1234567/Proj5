@@ -52,5 +52,6 @@ extern int command_break; // for incoming serial data
 
 extern uint8_t msg[MSG_LEN];
 extern uint8_t id, function_code, my_register1, my_register2, data1, data2, crc1, crc2;
+extern uint16_t ModRTU_CRC(uint8_t buf[], int len);
 
 #endif
