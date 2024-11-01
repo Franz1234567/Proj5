@@ -11,8 +11,8 @@
 #define WRITE_REGISTER 0x06
 #define READ_REGISTER 0x03
 
-int read_light_sensor(int file);
-int ask_motor_speed(int file);
+int read_light_sensor(int file, uint8_t device_id, uint8_t function_code, uint16_t reg);
+int write_motor_speed(int file, uint8_t device_id, uint8_t function_code, uint16_t reg, uint16_t value);
 
 const size_t MSG_LEN = 8;
 
@@ -39,24 +39,41 @@ int main(int argc, char *argv[]) {
     options.c_cc[VMIN]=8;
     tcflush(file, TCIFLUSH);
     tcsetattr(file, TCSANOW, &options);
-
+    int counter = 0;
+    int light_sensor_value = read_light_sensor(file, ID_LIGHT_SENSOR, READ_REGISTER, 1);
+    int motor_speed_ref = light_sensor_value*3000/1024.0;
+    int speed_measured = write_motor_speed(file, ID_MOTOR, WRITE_REGISTER, 1, motor_speed_ref);
     while(1){
-        int light_sensor_value = read_light_sensor(file, ID_LIGHT_SENSOR, READ_REGISTER, 1);
+        light_sensor_value = read_light_sensor(file, ID_LIGHT_SENSOR, READ_REGISTER, 1);
         if (light_sensor_value < 0 || light_sensor_value > 1023) {
-            printf("Failed to read light sensor value\n");
-            return -1;
+            // printf("Failed to read light sensor value\n");
+            // return -1;
         }
         else {
-            printf("Light sensor value: %d\n", light_sensor_value);
+            // printf("Light sensor value: %d\n", light_sensor_value);
         }
-        int motor_speed_ref = light_sensor_value*3000/1024.0;
-
-        int speed_measured = write_motor_speed(file, ID_MOTOR, READ_REGISTER, 1, motor_speed_ref);
-
+        if(counter == 16)
+        {
+            motor_speed_ref = light_sensor_value*3000/1024.0;
+        }
+        int speed_measured = write_motor_speed(file, ID_MOTOR, WRITE_REGISTER, 1, motor_speed_ref);
+        if(counter == 16)
+        {
+            counter = 0;
+            printf("RESET VALUE \n");
+            printf("Reference speed: %d ------", motor_speed_ref);
+            printf("Measured speed: %d\n", speed_measured);   
+        }
+        // if(counter == 8 || counter == 4 || counter == 12)
+        // {
+        //     printf("Reference speed: %d ------", motor_speed_ref);
+        //     printf("Measured speed: %d\n", speed_measured);   
+        // }
         printf("Reference speed: %d ------", motor_speed_ref);
-        printf("Measured speed: %d\n", speed_measured)
+        printf("Measured speed: %d\n", speed_measured);   
 
-        usleep(1000000);
+        counter++;    
+        usleep(250000);
     }
 }
 
@@ -97,7 +114,7 @@ int read_light_sensor(int file, uint8_t device_id, uint8_t function_code, uint16
     msg[7] = crc2;
 
     // print the message
-    printf("send: %x %x %x %x %x %x %x %x\n", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
+    //printf("send sensor: %x %x %x %x %x %x %x %x\n", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
     ssize_t count = write(file, msg, MSG_LEN);
     if (count < 0) {
         perror("Failed to write to the output\n");
@@ -111,7 +128,8 @@ int read_light_sensor(int file, uint8_t device_id, uint8_t function_code, uint16
         perror("Failed to read from the input\n");
         return -1;
     }
-    printf("received %x %x %x %x %x %x %x %x\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
+
+    //printf("received sensor %x %x %x %x %x %x %x %x\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
 
     // add CRC check using ModRTU_CRC function
     crc = ModRTU_CRC(rsp, MSG_LEN - 2);
@@ -124,7 +142,7 @@ int read_light_sensor(int file, uint8_t device_id, uint8_t function_code, uint16
         return -1;
     }
     else {
-        printf("CRC check passed!\n");
+        // printf("CRC check passed!\n");
     }
 
     if (count == 8) {
@@ -165,7 +183,7 @@ int write_motor_speed(int file, uint8_t device_id, uint8_t function_code, uint16
         perror("Failed to write to the output\n");
         return -1;
     }
-    printf("send: %x %x %x %x %x %x %x %x\n", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
+    // printf("send motor: %x %x %x %x %x %x %x %x\n", msg[0], msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
 
     usleep(200000);
 
@@ -177,7 +195,7 @@ int write_motor_speed(int file, uint8_t device_id, uint8_t function_code, uint16
         return -1;
     }
 
-    printf("resp: %x %x %x %x %x %x %x %x\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
+    // printf("resp motor: %x %x %x %x %x %x %x %x\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
 
 
     // add CRC check using ModRTU_CRC function
@@ -191,7 +209,7 @@ int write_motor_speed(int file, uint8_t device_id, uint8_t function_code, uint16
         return -1;
     }
     else {
-        printf("CRC check passed!\n");
+        // printf("CRC check passed!\n");
     }
 
     if (count == 0) {
@@ -199,7 +217,7 @@ int write_motor_speed(int file, uint8_t device_id, uint8_t function_code, uint16
         return -1;
     }
     else if (count == 8) {
-        printf("motor speed set \n");
+        //printf("motor speed set \n");
     }
     else {
         printf("Unexpected response length: %zd\n", count);
