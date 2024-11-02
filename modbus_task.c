@@ -46,25 +46,30 @@ int main(int argc, char *argv[]) {
     while(1){
         light_sensor_value = read_light_sensor(file, ID_LIGHT_SENSOR, READ_REGISTER, 1);
         if (light_sensor_value < 0 || light_sensor_value > 1023) {
-            printf("Failed to read light sensor value\n");
+            // printf("Failed to read light sensor value\n");
         }
         else {
             // printf("Light sensor value: %d\n", light_sensor_value);
         }
-        if(counter == 16)
+        if(counter == 32)
         {
             motor_speed_ref = light_sensor_value*3000/1024.0;
-        }
-        int speed_measured = write_motor_speed(file, ID_MOTOR, WRITE_REGISTER, 1, motor_speed_ref);
-        if(counter == 16)
-        {
+            speed_measured = write_motor_speed(file, ID_MOTOR, WRITE_REGISTER, 1, motor_speed_ref);
             counter = 0;
-            printf("RESET VALUE \n");
-            printf("Reference speed: %d ------", motor_speed_ref);
-            printf("Measured speed: %d\n", speed_measured);   
         }
-        // printf("Reference speed: %d ------", motor_speed_ref);
-        // printf("Measured speed: %d\n", speed_measured);   
+        else{
+            speed_measured = write_motor_speed(file, ID_MOTOR, WRITE_REGISTER, 1, motor_speed_ref);
+        }
+        
+        // if(counter == 32)
+        // {
+        //     counter = 0;
+        //     // printf("RESET VALUE \n");
+        //     // printf("Reference speed: %d ------", motor_speed_ref);
+        //     // printf("Measured speed: %d\n", speed_measured);   
+        // }
+        printf("Reference speed: %d ------", motor_speed_ref);
+        printf("Measured speed: %d\n", speed_measured);   
 
         counter++;    
         usleep(250000);
@@ -140,9 +145,22 @@ int read_light_sensor(int file, uint8_t device_id, uint8_t function_code, uint16
     }
 
     if (count == 8) {
-        // printf("Light sensor value: %u\n", (rsp[4] << 8) | rsp[5]);
-        int light_sensor_value = (rsp[4] << 8) | rsp[5];
-        return light_sensor_value;
+        if(rsp[1] != msg[1]){
+            printf("ERROR: ");
+            if(rsp[5] == 1){
+                printf("Unsupported function code\n");
+            }
+            if(rsp[5] == 2){
+                printf("Unsupported register\n");
+            }
+            return -1;
+        }
+        else{
+            // printf("Light sensor value: %u\n", (rsp[4] << 8) | rsp[5]);
+            int light_sensor_value = (rsp[4] << 8) | rsp[5];
+            return light_sensor_value;
+        }
+        
     }
     else if (count == 0) {
         printf("There was no data available to read!\n");
@@ -211,6 +229,19 @@ int write_motor_speed(int file, uint8_t device_id, uint8_t function_code, uint16
         return -1;
     }
     else if (count == 8) {
+        if(rsp[1] != msg[1]){
+            printf("ERROR: ");
+            if(rsp[5] == 1){
+                printf("Unsupported function code\n");
+            }
+            if(rsp[5] == 2){
+                printf("Unsupported register\n");
+            }
+            if(rsp[5] == 3){
+                printf("No possible transition\n");
+            }
+            return -1;
+        }
         //printf("motor speed set \n");
     }
     else {

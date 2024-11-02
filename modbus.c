@@ -110,6 +110,7 @@ int read_light_sensor(int file){
         return -1;
     }
 
+    // printf("Sent %zd bytes: Device ID: %d, Function Code: %d, Register: %d, Value: %d, CRC: %d\n", count, device_id, function_code, reg, value, crc);
     usleep(200000);
 
     // get response
@@ -118,6 +119,8 @@ int read_light_sensor(int file){
         perror("Failed to read from the input\n");
         return -1;
     }
+
+    printf("count is %d\n", count);
 
     printf("received %x %x %x %x %x %x %x %x\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
 
@@ -140,6 +143,16 @@ int read_light_sensor(int file){
         printf("There was no data available to read!\n");
     }
     else if (count == 8) {
+        if(rsp[1] != msg[1]){
+            printf("ERROR: ");
+            if(rsp[5] == 1){
+                printf("Unsupported function code\n");
+            }
+            if(rsp[5] == 2){
+                printf("Unsupported register\n");
+            }
+            return -1;
+        }
         printf("Light sensor value: %u\n", (rsp[4] << 8) | rsp[5]);
     }
     else {
@@ -208,6 +221,19 @@ int ask_motor_speed(int file){
         return -1;
     }
     else if (count == 8) {
+        if(rsp[1] != msg[1]){
+            printf("ERROR: ");
+            if(rsp[5] == 1){
+                printf("Unsupported function code\n");
+            }
+            if(rsp[5] == 2){
+                printf("Unsupported register\n");
+            }
+            if(rsp[5] == 3){
+                printf("No possible transition\n");
+            }
+            return -1;
+        }
         printf("motor speed set \n");
     }
     else {

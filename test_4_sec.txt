@@ -1,0 +1,450 @@
+motor speed set
+motor speed set
+Reference speed: 2211 ------Measured speed: 108
+motor speed set
+Reference speed: 2211 ------Measured speed: 108
+motor speed set
+Reference speed: 2211 ------Measured speed: 1349
+motor speed set
+Reference speed: 2211 ------Measured speed: 1495
+motor speed set
+Reference speed: 2211 ------Measured speed: 1495
+motor speed set
+Reference speed: 2211 ------Measured speed: 1640
+motor speed set
+Reference speed: 2211 ------Measured speed: 1779
+motor speed set
+Reference speed: 2211 ------Measured speed: 1779
+motor speed set
+Reference speed: 2211 ------Measured speed: 1851
+motor speed set
+Reference speed: 2211 ------Measured speed: 1906
+motor speed set
+Reference speed: 2211 ------Measured speed: 1906
+motor speed set
+Reference speed: 2211 ------Measured speed: 1958
+motor speed set
+Reference speed: 2211 ------Measured speed: 1958
+motor speed set
+Reference speed: 2211 ------Measured speed: 1988
+motor speed set
+Reference speed: 2211 ------Measured speed: 2024
+motor speed set
+Reference speed: 2211 ------Measured speed: 2024
+motor speed set
+RESET VALUE
+Reference speed: 1447 ------Measured speed: 2035
+Reference speed: 1447 ------Measured speed: 2035
+motor speed set
+Reference speed: 1447 ------Measured speed: 2004
+motor speed set
+Reference speed: 1447 ------Measured speed: 2004
+motor speed set
+Reference speed: 1447 ------Measured speed: 1818
+motor speed set
+Reference speed: 1447 ------Measured speed: 1759
+motor speed set
+Reference speed: 1447 ------Measured speed: 1759
+motor speed set
+Reference speed: 1447 ------Measured speed: 1705
+motor speed set
+Reference speed: 1447 ------Measured speed: 1642
+motor speed set
+Reference speed: 1447 ------Measured speed: 1642
+motor speed set
+Reference speed: 1447 ------Measured speed: 1591
+motor speed set
+Reference speed: 1447 ------Measured speed: 1567
+motor speed set
+Reference speed: 1447 ------Measured speed: 1567
+motor speed set
+Reference speed: 1447 ------Measured speed: 1539
+motor speed set
+Reference speed: 1447 ------Measured speed: 1522
+motor speed set
+Reference speed: 1447 ------Measured speed: 1522
+motor speed set
+Reference speed: 1447 ------Measured speed: 1492
+motor speed set
+RESET VALUE
+Reference speed: 1406 ------Measured speed: 1492
+Reference speed: 1406 ------Measured speed: 1492
+motor speed set
+Reference speed: 1406 ------Measured speed: 1484
+motor speed set
+Reference speed: 1406 ------Measured speed: 1452
+motor speed set
+Reference speed: 1406 ------Measured speed: 1452
+motor speed set
+Reference speed: 1406 ------Measured speed: 1439
+motor speed set
+Reference speed: 1406 ------Measured speed: 1418
+motor speed set
+Reference speed: 1406 ------Measured speed: 1418
+motor speed set
+Reference speed: 1406 ------Measured speed: 1411
+motor speed set
+Reference speed: 1406 ------Measured speed: 1410
+motor speed set
+Reference speed: 1406 ------Measured speed: 1410
+motor speed set
+Reference speed: 1406 ------Measured speed: 1407
+motor speed set
+Reference speed: 1406 ------Measured speed: 1417
+motor speed set
+Reference speed: 1406 ------Measured speed: 1417
+motor speed set
+Reference speed: 1406 ------Measured speed: 1413
+motor speed set
+Reference speed: 1406 ------Measured speed: 1408
+motor speed set
+Reference speed: 1406 ------Measured speed: 1408
+motor speed set
+RESET VALUE
+Reference speed: 1420 ------Measured speed: 1408
+Reference speed: 1420 ------Measured speed: 1408
+motor speed set
+Reference speed: 1420 ------Measured speed: 1404
+motor speed set
+Reference speed: 1420 ------Measured speed: 1404
+motor speed set
+Reference speed: 1420 ------Measured speed: 1416
+motor speed set
+Reference speed: 1420 ------Measured speed: 1416
+motor speed set
+Reference speed: 1420 ------Measured speed: 1412
+motor speed set
+Reference speed: 1420 ------Measured speed: 1433
+motor speed set
+Reference speed: 1420 ------Measured speed: 1433
+motor speed set
+Reference speed: 1420 ------Measured speed: 1409
+motor speed set
+Reference speed: 1420 ------Measured speed: 1431
+motor speed set
+Reference speed: 1420 ------Measured speed: 1431
+motor speed set
+Reference speed: 1420 ------Measured speed: 1406
+motor speed set
+Reference speed: 1420 ------Measured speed: 1436
+motor speed set
+Reference speed: 1420 ------Measured speed: 1436
+motor speed set
+Reference speed: 1420 ------Measured speed: 1414
+motor speed set
+Reference speed: 1420 ------Measured speed: 1408
+motor speed set
+RESET VALUE
+Reference speed: 2197 ------Measured speed: 1408
+Reference speed: 2197 ------Measured speed: 1408
+motor speed set
+Reference speed: 2197 ------Measured speed: 1474
+motor speed set
+Reference speed: 2197 ------Measured speed: 1807
+motor speed set
+Reference speed: 2197 ------Measured speed: 1807
+motor speed set
+Reference speed: 2197 ------Measured speed: 1863
+motor speed set
+Reference speed: 2197 ------Measured speed: 1916
+motor speed set
+Reference speed: 2197 ------Measured speed: 1916
+motor speed set
+Reference speed: 2197 ------Measured speed: 1956
+motor speed set
+Reference speed: 2197 ------Measured speed: 1956
+motor speed set
+Reference speed: 2197 ------Measured speed: 1990
+motor speed set
+Reference speed: 2197 ------Measured speed: 2010
+motor speed set
+Reference speed: 2197 ------Measured speed: 2010
+motor speed set
+Reference speed: 2197 ------Measured speed: 2037
+motor speed set
+Reference speed: 2197 ------Measured speed: 2060
+motor speed set
+Reference speed: 2197 ------Measured speed: 2060
+motor speed set
+Reference speed: 2197 ------Measured speed: 2075
+motor speed set
+RESET VALUE
+Reference speed: 1485 ------Measured speed: 2097
+Reference speed: 1485 ------Measured speed: 2097
+motor speed set
+Reference speed: 1485 ------Measured speed: 2097
+motor speed set
+Reference speed: 1485 ------Measured speed: 1974
+motor speed set
+Reference speed: 1485 ------Measured speed: 1876
+motor speed set
+Reference speed: 1485 ------Measured speed: 1876
+motor speed set
+Reference speed: 1485 ------Measured speed: 1799
+motor speed set
+Reference speed: 1485 ------Measured speed: 1746
+motor speed set
+Reference speed: 1485 ------Measured speed: 1746
+motor speed set
+Reference speed: 1485 ------Measured speed: 1697
+motor speed set
+Reference speed: 1485 ------Measured speed: 1637
+motor speed set
+Reference speed: 1485 ------Measured speed: 1637
+motor speed set
+Reference speed: 1485 ------Measured speed: 1593
+motor speed set
+Reference speed: 1485 ------Measured speed: 1593
+motor speed set
+Reference speed: 1485 ------Measured speed: 1593
+motor speed set
+Reference speed: 1485 ------Measured speed: 1561
+motor speed set
+Reference speed: 1485 ------Measured speed: 1561
+motor speed set
+RESET VALUE
+Reference speed: 1456 ------Measured speed: 1542
+Reference speed: 1456 ------Measured speed: 1542
+motor speed set
+Reference speed: 1456 ------Measured speed: 1534
+motor speed set
+Reference speed: 1456 ------Measured speed: 1534
+motor speed set
+Reference speed: 1456 ------Measured speed: 1488
+motor speed set
+Reference speed: 1456 ------Measured speed: 1477
+motor speed set
+Reference speed: 1456 ------Measured speed: 1477
+motor speed set
+Reference speed: 1456 ------Measured speed: 1478
+motor speed set
+Reference speed: 1456 ------Measured speed: 1480
+motor speed set
+Reference speed: 1456 ------Measured speed: 1480
+motor speed set
+Reference speed: 1456 ------Measured speed: 1476
+motor speed set
+Reference speed: 1456 ------Measured speed: 1452
+motor speed set
+Reference speed: 1456 ------Measured speed: 1452
+motor speed set
+Reference speed: 1456 ------Measured speed: 1473
+motor speed set
+Reference speed: 1456 ------Measured speed: 1453
+motor speed set
+Reference speed: 1456 ------Measured speed: 1453
+motor speed set
+Reference speed: 1456 ------Measured speed: 1478
+motor speed set
+RESET VALUE
+Reference speed: 1338 ------Measured speed: 1478
+Reference speed: 1338 ------Measured speed: 1478
+motor speed set
+Reference speed: 1338 ------Measured speed: 1456
+motor speed set
+Reference speed: 1338 ------Measured speed: 1360
+motor speed set
+Reference speed: 1338 ------Measured speed: 1360
+motor speed set
+Reference speed: 1338 ------Measured speed: 1365
+motor speed set
+Reference speed: 1338 ------Measured speed: 1343
+motor speed set
+Reference speed: 1338 ------Measured speed: 1343
+motor speed set
+Reference speed: 1338 ------Measured speed: 1343
+motor speed set
+Reference speed: 1338 ------Measured speed: 1343
+motor speed set
+Reference speed: 1338 ------Measured speed: 1343
+motor speed set
+Reference speed: 1338 ------Measured speed: 1345
+motor speed set
+Reference speed: 1338 ------Measured speed: 1338
+motor speed set
+Reference speed: 1338 ------Measured speed: 1338
+motor speed set
+Reference speed: 1338 ------Measured speed: 1341
+motor speed set
+Reference speed: 1338 ------Measured speed: 1342
+motor speed set
+Reference speed: 1338 ------Measured speed: 1342
+motor speed set
+RESET VALUE
+Reference speed: 1333 ------Measured speed: 1343
+Reference speed: 1333 ------Measured speed: 1343
+motor speed set
+Reference speed: 1333 ------Measured speed: 1344
+motor speed set
+Reference speed: 1333 ------Measured speed: 1344
+motor speed set
+Reference speed: 1333 ------Measured speed: 1340
+motor speed set
+Reference speed: 1333 ------Measured speed: 1345
+motor speed set
+Reference speed: 1333 ------Measured speed: 1345
+motor speed set
+Reference speed: 1333 ------Measured speed: 1344
+motor speed set
+Reference speed: 1333 ------Measured speed: 1344
+motor speed set
+Reference speed: 1333 ------Measured speed: 1345
+motor speed set
+Reference speed: 1333 ------Measured speed: 1345
+motor speed set
+Reference speed: 1333 ------Measured speed: 1345
+motor speed set
+Reference speed: 1333 ------Measured speed: 1344
+motor speed set
+Reference speed: 1333 ------Measured speed: 1345
+motor speed set
+Reference speed: 1333 ------Measured speed: 1345
+motor speed set
+Reference speed: 1333 ------Measured speed: 1345
+motor speed set
+Reference speed: 1333 ------Measured speed: 1344
+motor speed set
+RESET VALUE
+Reference speed: 1962 ------Measured speed: 1344
+Reference speed: 1962 ------Measured speed: 1344
+motor speed set
+Reference speed: 1962 ------Measured speed: 1367
+motor speed set
+Reference speed: 1962 ------Measured speed: 1692
+motor speed set
+Reference speed: 1962 ------Measured speed: 1692
+motor speed set
+Reference speed: 1962 ------Measured speed: 1724
+motor speed set
+Reference speed: 1962 ------Measured speed: 1760
+motor speed set
+Reference speed: 1962 ------Measured speed: 1760
+motor speed set
+Reference speed: 1962 ------Measured speed: 1796
+motor speed set
+Reference speed: 1962 ------Measured speed: 1843
+motor speed set
+Reference speed: 1962 ------Measured speed: 1843
+motor speed set
+Reference speed: 1962 ------Measured speed: 1857
+motor speed set
+Reference speed: 1962 ------Measured speed: 1857
+motor speed set
+Reference speed: 1962 ------Measured speed: 1879
+motor speed set
+Reference speed: 1962 ------Measured speed: 1899
+motor speed set
+Reference speed: 1962 ------Measured speed: 1899
+motor speed set
+Reference speed: 1962 ------Measured speed: 1900
+motor speed set
+RESET VALUE
+Reference speed: 1409 ------Measured speed: 1916
+Reference speed: 1409 ------Measured speed: 1916
+motor speed set
+Reference speed: 1409 ------Measured speed: 1916
+motor speed set
+Reference speed: 1409 ------Measured speed: 1787
+motor speed set
+Reference speed: 1409 ------Measured speed: 1652
+motor speed set
+Reference speed: 1409 ------Measured speed: 1652
+motor speed set
+Reference speed: 1409 ------Measured speed: 1604
+motor speed set
+Reference speed: 1409 ------Measured speed: 1580
+motor speed set
+Reference speed: 1409 ------Measured speed: 1580
+motor speed set
+Reference speed: 1409 ------Measured speed: 1538
+motor speed set
+Reference speed: 1409 ------Measured speed: 1501
+motor speed set
+Reference speed: 1409 ------Measured speed: 1501
+motor speed set
+Reference speed: 1409 ------Measured speed: 1468
+motor speed set
+Reference speed: 1409 ------Measured speed: 1459
+motor speed set
+Reference speed: 1409 ------Measured speed: 1459
+motor speed set
+Reference speed: 1409 ------Measured speed: 1458
+motor speed set
+Reference speed: 1409 ------Measured speed: 1458
+motor speed set
+RESET VALUE
+Reference speed: 2200 ------Measured speed: 1430
+Reference speed: 2200 ------Measured speed: 1430
+motor speed set
+Reference speed: 2200 ------Measured speed: 1507
+motor speed set
+Reference speed: 2200 ------Measured speed: 1507
+motor speed set
+Reference speed: 2200 ------Measured speed: 1838
+motor speed set
+Reference speed: 2200 ------Measured speed: 1886
+motor speed set
+Reference speed: 2200 ------Measured speed: 1886
+motor speed set
+Reference speed: 2200 ------Measured speed: 1927
+motor speed set
+Reference speed: 2200 ------Measured speed: 1969
+motor speed set
+Reference speed: 2200 ------Measured speed: 1969
+motor speed set
+Reference speed: 2200 ------Measured speed: 2007
+motor speed set
+Reference speed: 2200 ------Measured speed: 2024
+motor speed set
+Reference speed: 2200 ------Measured speed: 2024
+motor speed set
+Reference speed: 2200 ------Measured speed: 2045
+motor speed set
+Reference speed: 2200 ------Measured speed: 2066
+motor speed set
+Reference speed: 2200 ------Measured speed: 2066
+motor speed set
+Reference speed: 2200 ------Measured speed: 2086
+motor speed set
+RESET VALUE
+Reference speed: 1406 ------Measured speed: 2093
+Reference speed: 1406 ------Measured speed: 2093
+motor speed set
+Reference speed: 1406 ------Measured speed: 2093
+motor speed set
+Reference speed: 1406 ------Measured speed: 1926
+motor speed set
+Reference speed: 1406 ------Measured speed: 1926
+motor speed set
+Reference speed: 1406 ------Measured speed: 1808
+motor speed set
+Reference speed: 1406 ------Measured speed: 1746
+motor speed set
+Reference speed: 1406 ------Measured speed: 1746
+CRC check failed!
+Reference speed: 1406 ------Measured speed: -1
+motor speed set
+Reference speed: 1406 ------Measured speed: 1602
+motor speed set
+Reference speed: 1406 ------Measured speed: 1602
+motor speed set
+Reference speed: 1406 ------Measured speed: 1570
+motor speed set
+Reference speed: 1406 ------Measured speed: 1526
+motor speed set
+Reference speed: 1406 ------Measured speed: 1526
+motor speed set
+Reference speed: 1406 ------Measured speed: 1496
+motor speed set
+Reference speed: 1406 ------Measured speed: 1471
+motor speed set
+Reference speed: 1406 ------Measured speed: 1471
+motor speed set
+RESET VALUE
+Reference speed: 2200 ------Measured speed: 1447
+Reference speed: 2200 ------Measured speed: 1447
+motor speed set
+Reference speed: 2200 ------Measured speed: 1597
+motor speed set
+Reference speed: 2200 ------Measured speed: 1597
+
