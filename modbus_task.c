@@ -46,8 +46,7 @@ int main(int argc, char *argv[]) {
     while(1){
         light_sensor_value = read_light_sensor(file, ID_LIGHT_SENSOR, READ_REGISTER, 1);
         if (light_sensor_value < 0 || light_sensor_value > 1023) {
-            // printf("Failed to read light sensor value\n");
-            // return -1;
+            printf("Failed to read light sensor value\n");
         }
         else {
             // printf("Light sensor value: %d\n", light_sensor_value);
@@ -64,13 +63,8 @@ int main(int argc, char *argv[]) {
             printf("Reference speed: %d ------", motor_speed_ref);
             printf("Measured speed: %d\n", speed_measured);   
         }
-        // if(counter == 8 || counter == 4 || counter == 12)
-        // {
-        //     printf("Reference speed: %d ------", motor_speed_ref);
-        //     printf("Measured speed: %d\n", speed_measured);   
-        // }
-        printf("Reference speed: %d ------", motor_speed_ref);
-        printf("Measured speed: %d\n", speed_measured);   
+        // printf("Reference speed: %d ------", motor_speed_ref);
+        // printf("Measured speed: %d\n", speed_measured);   
 
         counter++;    
         usleep(250000);

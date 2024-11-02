@@ -110,7 +110,6 @@ int read_light_sensor(int file){
         return -1;
     }
 
-    // printf("Sent %zd bytes: Device ID: %d, Function Code: %d, Register: %d, Value: %d, CRC: %d\n", count, device_id, function_code, reg, value, crc);
     usleep(200000);
 
     // get response
@@ -119,8 +118,6 @@ int read_light_sensor(int file){
         perror("Failed to read from the input\n");
         return -1;
     }
-
-    printf("count is %d\n", count);
 
     printf("received %x %x %x %x %x %x %x %x\n", rsp[0], rsp[1], rsp[2], rsp[3], rsp[4], rsp[5], rsp[6], rsp[7]);
 
