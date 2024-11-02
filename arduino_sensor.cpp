@@ -39,12 +39,12 @@ void setup() {            // called once on start up
 void loop() {              // loops forever
    uint8_t buffer[MSG_LEN];       // stores the return buffer on each loop
    uint8_t msg[MSG_LEN];
-   uint8_t id, function, my_register1, my_register2, data1, data2, crc1, crc2;
+   uint8_t id, function_code, my_register1, my_register2, data1, data2, crc1, crc2;
 
    if (Serial.available()>0){                 // bytes received
       Serial.readBytes(msg, MSG_LEN); //message with fixed length
       id = msg[0];
-      function = msg[1];
+      function_code = msg[1];
       my_register1 = msg[2];
       my_register2 = msg[3];
       uint16_t my_register = (my_register1 << 8) | my_register2;
@@ -56,24 +56,44 @@ void loop() {              // loops forever
       uint16_t crc = (crc1 << 8) | crc2;
       if(id == ID_LIGHT_SENSOR){
          if(my_register == 0x01){   // right register ?
-		   uint16_t computed_crc = ModRTU_CRC(msg, MSG_LEN - 2);
-		   if(crc==computed_crc){
-			data = analogRead(sensorPin);
-			int led_intensity = (int)data*255/1024.0;
-			analogWrite(ledPin, led_intensity);
-			for(int i; i<MSG_LEN; i++){
-				buffer[i] = msg[i];
-			}
-			buffer[4] = data >> 8;
-			buffer[5] = data & 0xFF;
-			uint16_t crc = ModRTU_CRC(buffer, MSG_LEN - 2);
-			uint8_t crc1 = crc >> 8;
-			uint8_t crc2 = crc & 0xFF;
-			buffer[6] = crc1;
-			buffer[7] = crc2;
-			Serial.write(buffer, MSG_LEN);               // send the buffer to the RPi
-			}
-		 }
+            if(function_code == 0x03){
+               uint16_t computed_crc = ModRTU_CRC(msg, MSG_LEN - 2);
+               if(crc==computed_crc){
+                  int read_data = analogRead(sensorPin);
+                  int led_intensity = (int)read_data*255/1024.0;
+                  analogWrite(ledPin, led_intensity);
+                  for(int i; i<MSG_LEN; i++){
+                     buffer[i] = msg[i];
+                  }
+                  buffer[4] = ((uint16_t)read_data) >> 8;
+                  buffer[5] = ((uint16_t) read_data) & 0xFF;
+                  uint16_t crc = ModRTU_CRC(buffer, MSG_LEN - 2);
+                  uint8_t crc1 = crc >> 8;
+                  uint8_t crc2 = crc & 0xFF;
+                  buffer[6] = crc1;
+                  buffer[7] = crc2;
+                  Serial.write(buffer, MSG_LEN);               // send the buffer to the RPi
+               }
+            }
+            else{
+               msg[1] = (uint8_t)function_code + 80;
+               msg[4] = (uint8_t)0;
+               msg[5] = (uint8_t)1;               //sending code error 1 in data because of unsupported function code
+               crc = ModRTU_CRC(msg, MSG_LEN - 2);
+               msg[6] = crc >> 8;
+               msg[7] = crc & 0xFF;
+               Serial.write(msg, MSG_LEN);
+            }
+         }
+         else{
+            msg[1] = (uint8_t)function_code + 80;
+            msg[4] = (uint8_t)0;
+            msg[5] = (uint8_t)2;               //sending code error 2 in data because of unsupported register
+            crc = ModRTU_CRC(msg, MSG_LEN - 2);
+            msg[6] = crc >> 8;
+            msg[7] = crc & 0xFF;
+            Serial.write(msg, MSG_LEN);
+         }
       }
    }
 }
