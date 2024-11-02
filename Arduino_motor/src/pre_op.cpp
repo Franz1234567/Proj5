@@ -12,15 +12,12 @@ void PreOpState::on_entry(){
 	msg[7] = crc2;
   
   Serial.write(msg, MSG_LEN);
-	// Serial.println("Entering Pre Op State");
   led.set_hi();
-  // Serial.println("Press b for basic proportional control or a for advanced pi control");
   on_do();
 	
 }
 
 void PreOpState::on_exit(){
-	// Serial.println("Exiting Pre Op State");
 }
 
 void PreOpState::on_do(){
@@ -37,5 +34,14 @@ void PreOpState::on_event(int event){
   }
   else if (event == 81){
     this->context_->transition_to(new InitState);
+  }
+  else if(event == 80){
+    msg[1] = (uint8_t)function_code + 80;
+    msg[4] = (uint8_t)0;
+    msg[5] = (uint8_t)3;   //sending code error 3 in data because of no existing transition
+    uint16_t crc = ModRTU_CRC(msg, MSG_LEN - 2);
+    msg[6] = crc >> 8;
+    msg[7] = crc & 0xFF;
+    Serial.write(msg, MSG_LEN);
   }
 }

@@ -29,8 +29,26 @@ void OperationalState::on_do()
           if(my_register == 0){
             uint16_t computed_crc = ModRTU_CRC(msg, MSG_LEN - 2);
             if(crc == computed_crc){
-              if((function_code == 81) || (function_code == 2)){
+              if((function_code == 81) || (function_code == 2) || (function_code == 80)){
                 break;
+              }
+              else if((function_code == 1)){
+                msg[1] = (uint8_t)function_code + 80;
+                msg[4] = (uint8_t)0;
+                msg[5] = (uint8_t)3;   //sending code error 3 in data because of no existing transition
+                crc = ModRTU_CRC(msg, MSG_LEN - 2);
+                msg[6] = crc >> 8;
+                msg[7] = crc & 0xFF;
+                Serial.write(msg, MSG_LEN);
+              }
+              else{
+                msg[1] = (uint8_t)function_code + 80;
+                msg[4] = (uint8_t)0;
+                msg[5] = (uint8_t)1;   //sending code error 1 in data because of unsupported fonction code
+                crc = ModRTU_CRC(msg, MSG_LEN - 2);
+                msg[6] = crc >> 8;
+                msg[7] = crc & 0xFF;
+                Serial.write(msg, MSG_LEN);
               }
             }
           }
@@ -40,7 +58,7 @@ void OperationalState::on_do()
               if(crc == computed_crc){
                 ref = (double)data;
 
-                //send boack message
+                //send back message
                 msg[4] = ((uint16_t)current_speed) >> 8;
                 msg[5] = ((uint16_t)current_speed) & 0xFF;
                 crc = ModRTU_CRC(msg, MSG_LEN - 2);
@@ -50,11 +68,18 @@ void OperationalState::on_do()
               }
             }
           }
+          else{
+            msg[1] = (uint8_t)function_code + 80;
+            msg[4] = (uint8_t)0;
+            msg[5] = (uint8_t)2;               //sending code error 2 in data because of unsupported register
+            crc = ModRTU_CRC(msg, MSG_LEN - 2);
+            msg[6] = crc >> 8;
+            msg[7] = crc & 0xFF;
+            Serial.write(msg, MSG_LEN);
+          }
         }
       }
     }
-    // Serial.print("---------> I received: ");
-    // Serial.println((char)command_break);
     context_->event(function_code);
 
 }
@@ -70,7 +95,6 @@ void OperationalState::on_entry()
 	msg[7] = crc2;
 
   Serial.write(msg, MSG_LEN);
-  // Serial.println("Entering Operational State");
   led.set_hi();
   if (advanced_control){ // pi controller was chosen
     control.init(Kp, Ti, T);
@@ -120,7 +144,6 @@ ISR(TIMER2_COMPA_vect)
       curr_state_A = encA.is_low();
       if(curr_state_A != last_state_A){
         encA.count++;
-        //led.toggle(); //to verify pulse count
       }
       else{ 
         curr_state_B  = encB.is_low();
@@ -130,7 +153,6 @@ ISR(TIMER2_COMPA_vect)
       curr_state_A = encA.is_low();
       if(curr_state_A != last_state_A){
         encA.count--;
-        //led.toggle(); //to verify pulse count
       }
       else{ 
         curr_state_B  = encB.is_low();
@@ -152,14 +174,6 @@ ISR(TIMER0_COMPA_vect){
     current_speed = encA.count;
     encA.count = 0;
     timer_speed.count_speed = 0;
-    // Serial.print("Ref: ");
-    // Serial.print(ref);
-    // Serial.print("--------->Current speed: ");
-    // Serial.print(current_speed);
-    // Serial.print("------>PWM: ");
-    // Serial.println(u);
-    // Serial.println(control.get_sum_error());
-    //led.toggle(); // can be used to verify 1s delay of the timer
   }
 }
 

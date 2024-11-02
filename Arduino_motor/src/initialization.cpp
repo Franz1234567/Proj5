@@ -13,7 +13,6 @@ void InitState::on_entry(){
 }
 
 void InitState::on_exit(){
-	// Serial.println("Exiting Init State");
 }
 
 void InitState::on_do(){ // Initialization of the variables
@@ -31,7 +30,6 @@ void InitState::on_do(){ // Initialization of the variables
 	led.set_lo();
 	analog.pin_digi.set_lo();
 	fault.init();
-	// Serial.println("Variables initialized !");
 	this->context_->transition_to(new PreOpState);
 }
 

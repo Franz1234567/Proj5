@@ -10,14 +10,12 @@ void StoppedState::on_entry(){
 	msg[7] = crc2;
 
     Serial.write(msg, MSG_LEN);
-	// Serial.println("Entering Stopped State");
     led.set_hi();
     analog.pin_digi.set_lo();
 	on_do();
 }
 
 void StoppedState::on_exit(){
-	// Serial.println("Exiting Stopped State");
 }
 
 void StoppedState::on_do(){
@@ -45,13 +43,38 @@ void StoppedState::on_do(){
                         if((function_code == 81) || (function_code == 1)||(function_code == 80)){
                             break;
                         }
+                        else if((function_code == 2)){
+                            msg[1] = (uint8_t)function_code + 80;
+                            msg[4] = (uint8_t)0;
+                            msg[5] = (uint8_t)3;   //sending code error 3 in data because of no existing transition
+                            crc = ModRTU_CRC(msg, MSG_LEN - 2);
+                            msg[6] = crc >> 8;
+                            msg[7] = crc & 0xFF;
+                            Serial.write(msg, MSG_LEN);
+                        }
+                        else{
+                            msg[1] = (uint8_t)function_code + 80;
+                            msg[4] = (uint8_t)0;
+                            msg[5] = (uint8_t)1;   //sending code error 1 in data because of unsupported fonction code
+                            crc = ModRTU_CRC(msg, MSG_LEN - 2);
+                            msg[6] = crc >> 8;
+                            msg[7] = crc & 0xFF;
+                            Serial.write(msg, MSG_LEN);
+                        }
                     }
+                }
+                else{
+                    msg[1] = (uint8_t)function_code + 80;
+                    msg[4] = (uint8_t)0;
+                    msg[5] = (uint8_t)2;               //sending code error 2 in data because of unsupported register
+                    crc = ModRTU_CRC(msg, MSG_LEN - 2);
+                    msg[6] = crc >> 8;
+                    msg[7] = crc & 0xFF;
+                    Serial.write(msg, MSG_LEN);
                 }
             }
         }
     }
-    // Serial.print("---------> I received: ");
-    // Serial.println((char)command_break);
     context_->event(function_code);
     }
 

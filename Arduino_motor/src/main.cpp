@@ -77,10 +77,28 @@ void loop()
       if(my_register == 0 ){
         uint16_t computed_crc = ModRTU_CRC(msg, MSG_LEN - 2);
 			  if(crc==computed_crc){
-          if((function_code == 1) || (function_code == 2) || (function_code == 80) || (function_code == 81) || (function_code == 82)){
+          if((function_code == 1) || (function_code == 2) || (function_code == 80) || (function_code == 81)){
             context->event(function_code);
           }
+          else{
+            msg[1] = (uint8_t)function_code + 80;
+            msg[4] = (uint8_t)0;
+            msg[5] = (uint8_t)1;   //sending code error 1 in data because of unsupported fonction code
+            crc = ModRTU_CRC(msg, MSG_LEN - 2);
+            msg[6] = crc >> 8;
+            msg[7] = crc & 0xFF;
+            Serial.write(msg, MSG_LEN);
+          }
         }
+      }
+      else{
+        msg[1] = (uint8_t)function_code + 80;
+        msg[4] = (uint8_t)0;
+        msg[5] = (uint8_t)2;               //sending code error 2 in data because of unsupported register
+        crc = ModRTU_CRC(msg, MSG_LEN - 2);
+        msg[6] = crc >> 8;
+        msg[7] = crc & 0xFF;
+        Serial.write(msg, MSG_LEN);
       }
     }
   }
